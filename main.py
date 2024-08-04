@@ -8,12 +8,12 @@ from slack_bolt import App
 
 load_dotenv()
 
-SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
+SLACK_SIGNING_SECRET = os.getenv("SLACK_SIGNING_SECRET")
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 DEBUG_BOT_CAHNNEL_ID = os.getenv("DEBUG_BOT_CAHNNEL_ID")
 BOT_CHANNEL_ID = os.getenv("BOT_CHANNEL_ID")
 
-app = App(token=SLACK_BOT_TOKEN, name="Spencerbot")
+app = App(token=SLACK_BOT_TOKEN, signing_secret=SLACK_SIGNING_SECRET, name="Spencerbot")
 # scheduler = BackgroundScheduler()
 
 
