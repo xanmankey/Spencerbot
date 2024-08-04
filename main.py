@@ -2,9 +2,9 @@ import os
 
 from dotenv import load_dotenv
 from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
+
+# from apscheduler.schedulers.background import BackgroundScheduler
+# from apscheduler.triggers.cron import CronTrigger
 
 load_dotenv()
 
@@ -14,10 +14,10 @@ DEBUG_BOT_CAHNNEL_ID = os.getenv("DEBUG_BOT_CAHNNEL_ID")
 BOT_CHANNEL_ID = os.getenv("BOT_CHANNEL_ID")
 
 app = App(token=SLACK_BOT_TOKEN, name="Spencerbot")
-scheduler = BackgroundScheduler()
+# scheduler = BackgroundScheduler()
 
 
-# Runs every sunday at 8
+# Runs every sunday at 8; scheduled via pythonanywhere
 def weekly_reminder():
     """Send a weekly reminder to the bot channel"""
     print("Sending weekly reminder")
@@ -40,21 +40,25 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 
 flask_app = Flask(__name__)
 handler = SlackRequestHandler(app)
+# scheduler.add_job(weekly_reminder, CronTrigger(hour=20, day_of_week=1))
+# scheduler.start()
 
 
 @flask_app.route("/slack/events", methods=["POST"])
 def slack_events():
+    print("Received a request")
     return handler.handle(request)
 
 
-def main():
-    scheduler.add_job(weekly_reminder, CronTrigger(hour=20, day_of_week=1))
-    scheduler.start()
+# def main():
+#     scheduler.add_job(weekly_reminder, CronTrigger(hour=20, day_of_week=1))
+#     scheduler.start()
 
-    # Starts the event loop (if desired)
-    handler = SocketModeHandler(app, SLACK_APP_TOKEN)
-    handler.start()
-
+#     # Starts the event loop (if desired)
+#     handler = SocketModeHandler(app, SLACK_APP_TOKEN)
+#     handler.start()
 
 if __name__ == "__main__":
-    main()
+    # main()
+    # flask_app.run(port=3000)
+    weekly_reminder()
