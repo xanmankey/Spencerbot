@@ -29,10 +29,18 @@ def weekly_reminder():
 # Adding one slash command for getting event ideas
 @app.command("/cutting")
 def cutting(ack, respond, command):
+    print("Before acknowledging")
     ack()
-    respond(
-        f"This test command will probably be cut (just like Pedro's doing), <@{command['user_id']}>!"
-    )
+    print("After acknowledging")
+    # print(command)
+    # print(respond)
+    try:
+        return respond(
+            f"This test command will probably be cut (just like Pedro's doing), <@{command['user_id']}>!"
+        )
+    except Exception as e:
+        print(e)
+        return respond("Something went wrong, please try again later.")
 
 
 from flask import Flask, request
